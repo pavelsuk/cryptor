@@ -1,3 +1,13 @@
 {
-    "python.pythonPath": "C:\\dev\\Anaconda3\\envs\\py36\\python.exe"
+    "python.pythonPath": "C:\\dev\\Anaconda3\\envs\\py36\\python.exe",
+    "python.unitTest.unittestArgs": [
+        "-v",
+        "-s",
+        "./01_cryptodome",
+        "-p",
+        "test_*.py"
+    ],
+    "python.unitTest.pyTestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+    "python.unitTest.unittestEnabled": true
 }
