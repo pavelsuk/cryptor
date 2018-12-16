@@ -58,6 +58,7 @@ python cryptorshell.py generate --privkey private_pwd.pem --pubkey public_pwd.pe
 ```
 
 ### Encrypt & Decrypt file
+
 ``` bash
 # encrypt little_secret.txt to little_secret.txt.encrypted using default public_key.pem
 python cryptorshell.py encrypt little_secret.txt
