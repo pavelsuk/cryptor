@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cryptor",
-    version="0.0.1",
+    version="0.0.2",
     author="Pavel Suk",
     author_email="suk.pavel@gmail.com",
     description="Simple tool for encrypting and decrypting files with RSA",
