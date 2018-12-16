@@ -54,5 +54,21 @@ pip install -r requirements.txt
 python cryptorshell.py generate
 
 # generate key pair (password protected) to specific files:
-python cryptorshell.py generate --privkey private.pem --pubkey public.pem --pwd mylittlesecretpwd
+python cryptorshell.py generate --privkey private_pwd.pem --pubkey public_pwd.pem --pwd mylittlesecretpwd
+```
+
+### Encrypt & Decrypt file
+``` bash
+# encrypt little_secret.txt to little_secret.txt.encrypted using default public_key.pem
+python cryptorshell.py encrypt little_secret.txt
+
+# decrypt little_secret.txt.encrypted to little_secret.txt.dec using default public_key.pem
+python cryptorshell.py decrypt little_secret.txt.encrypted little_secret.txt.dec
+
+# encrypt file little_secret.txt to encrypted_secret.enc  using public key public_pwd.pem
+python cryptorshell.py encrypt little_secret.txt encrypted_secret.enc --pubkey public_pwd.pem
+
+# decrypt encrypted_secret.enc to encrypted_secret.dec using password protected private key
+python cryptorshell.py decrypt encrypted_secret.enc decrypted_secret.dec --privkey private_pwd.pem --pwd mylittlesecretpwd
+
 ```

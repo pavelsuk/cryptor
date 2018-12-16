@@ -48,7 +48,7 @@ class CrypterShell(object):
         args = ap.parse_args()
     
         verb_choices = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
-        verbose_lvl = 'ERROR'
+        verbose_lvl = 'DEBUG'
         self.logger.setLevel(verbose_lvl)
 
         if (args.verbosity):
@@ -106,15 +106,22 @@ class CrypterShell(object):
         cryptor = CryptFile(self.logger)
         cryptor.generate_key(self._privkey, self._pubkey, self._pwd)
         
+    def encrypt_file(self):
+        cryptor = CryptFile(self.logger)
+        cryptor.encrypt_file(self._inputfile, self._outputfile, self._pubkey)
+
+    def decrypt_file(self):
+        cryptor = CryptFile(self.logger)
+        cryptor.decrypt_file(self._inputfile, self._outputfile, self._privkey, self._pwd)
 
     def run(self):
         if (self.parse_args()):
             if(self._command=='generate'):
                 self.generate_key()
             elif(self._command=='encrypt'):
-                pass
+                self.encrypt_file()
             elif(self._command=='decrypt'):
-                pass
+                self.decrypt_file()
             else:
                 self.logger.warning('Unknown command : {}'.format(self._command))
 
