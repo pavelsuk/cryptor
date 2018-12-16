@@ -104,6 +104,10 @@ venv.bak/
 .mypy_cache/
 
 
-# exceptions
-private.pem
-public.pem
+# project level exceptions
+**/*.pem
+**/*.encrypted
+**/*.decrypted
+**/*.enc
+**/*.dec
+

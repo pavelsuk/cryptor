@@ -10,8 +10,8 @@ class Test_AsusRouter(unittest.TestCase):
         self._test_secret = 'this is my little secret'
 
     
-    def test_generate_RSA(self):
-        # self.crypt_file.generate_RSA()
+    def test_generate_key(self):
+        # self.crypt_file.generate_key()
         pass
 
     def test_encrypt_data(self):

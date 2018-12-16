@@ -44,3 +44,13 @@ git merge
 source env/bin/activate
 pip install -r requirements.txt
 ```
+
+## Usage
+
+### Generate key pair
+``` bash
+# generate private_key.pem (without password) and public_key.pem:
+python cryptorshell.py generate 
+# generate key pair (password protected) to specific files:
+python cryptorshell.py generate --privkey private.pem --pubkey public.pem --pwd mylittlesecretpwd
+```
