@@ -19,11 +19,22 @@ class CrypterShell(object):
         ap = argparse.ArgumentParser(description='Encrypt or decrypt file')
         ap.add_argument(
             "command",
-            choices=['encrypt', 'decrypt', 'generate'],
-            help="command (encrypt, decrypt, generate) Default: encrypt",
+            choices=['encrypt', 'decrypt', 'generate', 'encryptdir', 'decryptdir'],
+            help="command (encrypt, decrypt, generate, 'encryptdir', 'decryptdir') Default: encrypt",
             default='encrypt')
-        ap.add_argument('inputfile', help='input file', nargs='?', default=None)
-        ap.add_argument('outputfile', help='output file', nargs='?', default=None)
+        ap.add_argument('inputfile', help='input file or dir', nargs='?', default=None)
+        ap.add_argument('outputfile', help='output file or dir', nargs='?', default=None)
+
+        ap.add_argument(
+            "--pattern",
+            help="pattern in directory",
+            default=None)
+
+        ap.add_argument(
+            "--postfix",
+            help="postfix for each file that's encrypted",
+            default=".encrypted")
+
         ap.add_argument(
             "-v",
             "--verbosity",
@@ -97,6 +108,20 @@ class CrypterShell(object):
         else:
             self.logger.debug('Password empty')
 
+        self._pattern = args.pattern
+        if (args.pattern):
+            self._pattern = args.pattern
+            self.logger.debug('pattern: {}'.format(self._pattern))
+        else:
+            self.logger.debug('pattern empty')
+
+        self._postfix = args.postfix
+        if (args.postfix):
+            self._postfix = args.postfix
+            self.logger.debug('postfix: {}'.format(self._postfix))
+        else:
+            self.logger.debug('postfix empty')
+
         if (not retVal):
             ap.print_help()
 
@@ -114,6 +139,15 @@ class CrypterShell(object):
         cryptor = CryptFile(self.logger)
         cryptor.decrypt_file(self._inputfile, self._outputfile, self._privkey, self._pwd)
 
+    def encrypt_dir(self):
+        cryptor = CryptFile(self.logger)
+        cryptor.encrypt_dir( self._inputfile, self._outputfile, self._pattern, self._postfix, self._pubkey)
+
+    def decrypt_dir(self):
+        cryptor = CryptFile(self.logger)
+        cryptor.decrypt_dir(self._inputfile, self._outputfile, self._pattern, self._postfix, 
+                            remove_postfix=True, priv_key_fname= self._privkey, _passphrase=  self._pwd)
+
     def run(self):
         if (self.parse_args()):
             if(self._command=='generate'):
@@ -122,6 +156,10 @@ class CrypterShell(object):
                 self.encrypt_file()
             elif(self._command=='decrypt'):
                 self.decrypt_file()
+            elif(self._command=='encryptdir'):
+                self.encrypt_dir()
+            elif(self._command=='decryptdir'):
+                self.decrypt_dir()
             else:
                 self.logger.warning('Unknown command : {}'.format(self._command))
 

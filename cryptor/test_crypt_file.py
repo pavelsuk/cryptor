@@ -1,11 +1,27 @@
 import unittest
+import logging
+
 
 from crypt_file import CryptFile
 
 
 class Test_CryptFile(unittest.TestCase):
     def setUp(self):
-        self.crypt_file = CryptFile()
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(logging.INFO)
+        # logger = logging.getLogger()
+        # logger.addHandler(stream_handler)
+        # logger.setLevel(logging.INFO)
+        # self.logger.format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+        logging.basicConfig(level=logging.INFO, 
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                        handlers=[stream_handler], force=True)
+
+        logger = logging.getLogger()
+        logger.debug("setUp test")
+
+        self.crypt_file = CryptFile(logger)
         self._test_secret = 'this is my little secret'
 
     @unittest.skip("just temporary")
@@ -57,6 +73,12 @@ class Test_CryptFile(unittest.TestCase):
     def test_decrypt_data(self):
         data = self.crypt_file.decrypt_data('data.encrypted')
         self.assertEqual(data, self._test_secret.encode('utf-8'))
+
+    def test_encrypt_dir(self):
+        self.crypt_file.encrypt_dir('test_data\dir2encrypt', 'test_data\dir2decrypt', 'private*')
+
+    def test_decrypt_dir(self):
+        self.crypt_file.decrypt_dir('test_data\dir2decrypt', 'test_data\dir2encrypt', 'private*')
 
     def tearDown(self):
         pass

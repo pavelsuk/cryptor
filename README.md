@@ -73,3 +73,16 @@ python cryptorshell.py encrypt little_secret.txt encrypted_secret.enc --pubkey p
 python cryptorshell.py decrypt encrypted_secret.enc decrypted_secret.dec --privkey private_pwd.pem --pwd mylittlesecretpwd
 
 ```
+
+### Encrypt & Decrypt directory
+
+``` bash
+# Encrypt private* files from test_data\dir2encrypt to test_data\dir2decrypt
+python cryptorshell.py encryptdir test_data\dir2encrypt test_data\dir2decrypt --pattern private*
+
+# Encrypt private* files from test_data\dir2encrypt to test_data\dir2decrypt using specific public key
+python cryptorshell.py encryptdir test_data\dir2encrypt test_data\dir2decrypt --pattern private* --pubkey public_key_test.pem
+
+# decrypt private* files from test_data\dir2decrypt to test_data\dir2encrypt using specific public key. Original suffix is removed
+python cryptorshell.py decryptdir test_data\dir2decrypt test_data\dir2encrypt --pattern private* --privkey private_key_test.pem
+```

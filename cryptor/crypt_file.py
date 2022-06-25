@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
@@ -88,6 +89,46 @@ class CryptFile(object):
             cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
             data = cipher_aes.decrypt_and_verify(ciphertext, tag)
             return data
+
+    def encrypt_dir(self, 
+                    input_dir: str,
+                    output_dir: str, 
+                    pattern: str,
+                    postfix:str = '.encrypted', 
+                    public_key_fname='public_key.pem'):
+        p = Path(input_dir)
+        out = Path(output_dir)
+
+        self.logger.info('Encrypting directory {} with pattern {}'.format(p, pattern))
+        for f in p.glob(pattern=pattern):
+            if f.is_file():
+                outfile = out.joinpath(f.name+postfix)
+                self.logger.info('Encrypting file {} to {}'.format(f, outfile))
+                self.encrypt_file(f,outfile,public_key_fname)
+                
+
+    def decrypt_dir(self, 
+                    input_dir: str,
+                    output_dir: str, 
+                    pattern: str,
+                    postfix:str = '.encrypted',
+                    remove_postfix:bool = True,
+                    priv_key_fname='private_key.pem',
+                    _passphrase=None):
+        p = Path(input_dir)
+        out = Path(output_dir)
+
+        self.logger.info('Decrypting directory {} with pattern {}'.format(p, pattern))
+        for f in p.glob(pattern=pattern):
+            if f.is_file():
+                newfName = f.name
+                if remove_postfix:
+                    newfName = newfName.replace(postfix,'')
+                outfile = out.joinpath(newfName)
+                self.logger.info('Decrypting file {} to {}'.format(f, outfile))
+                self.decrypt_file(f,outfile,priv_key_fname,_passphrase)
+
+        
 
 
 if __name__ == "__main__":
