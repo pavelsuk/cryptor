@@ -13,7 +13,7 @@ Place for various test of crypto libs in python
 ### Conda - Windows
 
 ``` bash
-conda install -c conda-forge pycryptodomeex
+conda install -c conda-forge pycryptodome
 ```
 
 ### pip - Linux
